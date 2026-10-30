@@ -1,0 +1,1429 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Little Nest - Baby & Maternity Essentials</title>
+    <!-- Tailwind CSS -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    colors: {
+                        brandPink: '#E85D7A',
+                        brandPinkLight: '#FDF0F3',
+                        brandPinkHover: '#D44A67',
+                        brandBlue: '#7EC8E3',
+                        brandBlueLight: '#EFF9FC',
+                        brandBg: '#FFF5F7',
+                        brandText: '#4A3E3D',
+                    },
+                    fontFamily: {
+                        sans: ['Nunito', 'Inter', 'sans-serif'],
+                    }
+                }
+            }
+        }
+    </script>
+    <!-- FontAwesome Icons -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <!-- Google Fonts -->
+    <link href="https://fonts.googleapis.com/css2?family=Nunito:wght@400;600;700;800&display=swap" rel="stylesheet">
+    <style>
+        body {
+            font-family: 'Nunito', sans-serif;
+            background-color: #FFF5F7;
+            color: #4A3E3D;
+        }
+        /* Custom Scrollbar */
+        ::-webkit-scrollbar {
+            width: 8px;
+        }
+        ::-webkit-scrollbar-track {
+            background: #FFF5F7;
+        }
+        ::-webkit-scrollbar-thumb {
+            background: #E85D7A;
+            border-radius: 9999px;
+        }
+        .soft-shadow {
+            box-shadow: 0 10px 30px -5px rgba(232, 93, 122, 0.12);
+        }
+        .soft-card {
+            background: #FFFFFF;
+            border-radius: 1.25rem;
+            border: 1px solid rgba(232, 93, 122, 0.1);
+        }
+    </style>
+</head>
+<body class="min-h-screen flex flex-col justify-between antialiased selection:bg-pink-200">
+
+    <!-- Top Announcement Bar -->
+    <div class="bg-brandPink text-white text-xs sm:text-sm py-2 px-4 text-center font-medium tracking-wide flex justify-between items-center px-6">
+        <span class="hidden sm:inline">💖 Free Shipping on orders over $49 | Warm, Gentle & Caring for your Little One</span>
+        <span class="sm:hidden text-center w-full">💖 Free Shipping on orders over $49!</span>
+        <div class="hidden sm:flex items-center space-x-4 text-xs">
+            <span><i class="fa-solid fa-headset mr-1"></i> 24/7 Parent Support</span>
+            <span><i class="fa-solid fa-truck-fast mr-1"></i> Fast Delivery</span>
+        </div>
+    </div>
+
+    <!-- Main Navigation Header -->
+    <header class="sticky top-0 z-40 bg-white/90 backdrop-blur-md border-b border-pink-100 shadow-sm">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="flex items-center justify-between h-20">
+                
+                <!-- Logo -->
+                <div class="flex items-center space-x-3 cursor-pointer" onclick="navigateTo('home')">
+                    <div class="w-11 h-11 rounded-full bg-brandPink text-white flex items-center justify-center text-xl shadow-md">
+                        <i class="fa-solid fa-baby"></i>
+                    </div>
+                    <div>
+                        <span class="text-2xl font-extrabold text-brandPink tracking-tight block leading-none">Little Nest</span>
+                        <span class="text-xs text-brandBlue font-semibold tracking-wider uppercase">Baby & Maternity</span>
+                    </div>
+                </div>
+
+                <!-- Search Bar (Desktop) -->
+                <div class="hidden md:flex flex-1 max-w-md mx-8 relative">
+                    <input type="text" id="searchInput" placeholder="Search diapers, bottles, clothing..." 
+                        class="w-full pl-10 pr-10 py-2.5 rounded-full border border-pink-200 bg-brandBg text-sm focus:outline-none focus:border-brandPink focus:ring-2 focus:ring-pink-100 transition-all"
+                        onkeyup="handleHeaderSearch(event)">
+                    <i class="fa-solid fa-magnifying-glass absolute left-3.5 top-3.5 text-pink-400"></i>
+                    <button onclick="triggerHeaderSearch()" class="absolute right-2 top-1.5 bg-brandPink text-white text-xs px-3 py-1.5 rounded-full hover:bg-brandPinkHover transition-colors">
+                        Search
+                    </button>
+                </div>
+
+                <!-- Desktop Nav Links & Action Icons -->
+                <div class="hidden lg:flex items-center space-x-6 text-sm font-semibold text-gray-700">
+                    <button onclick="navigateTo('home')" class="hover:text-brandPink transition-colors py-1">Home</button>
+                    <button onclick="navigateTo('shop')" class="hover:text-brandPink transition-colors py-1">Products</button>
+                    <button onclick="navigateTo('registry')" class="hover:text-brandPink transition-colors py-1">Baby Registry</button>
+                    <button onclick="navigateTo('about')" class="hover:text-brandPink transition-colors py-1">About Us</button>
+                    <button onclick="navigateTo('contact')" class="hover:text-brandPink transition-colors py-1">Contact</button>
+                </div>
+
+                <!-- Action Icons -->
+                <div class="flex items-center space-x-3 sm:space-x-4">
+                    <!-- Wishlist Icon -->
+                    <button onclick="navigateTo('account', 'wishlist')" class="relative p-2 text-gray-600 hover:text-brandPink transition-colors">
+                        <i class="fa-regular fa-heart text-xl"></i>
+                        <span id="wishlistBadge" class="absolute -top-1 -right-1 bg-brandBlue text-white text-xs font-bold w-5 h-5 rounded-full flex items-center justify-center hidden">0</span>
+                    </button>
+
+                    <!-- Cart Icon -->
+                    <button onclick="toggleCartDrawer(true)" class="relative p-2 text-gray-600 hover:text-brandPink transition-colors">
+                        <i class="fa-solid fa-basket-shopping text-xl"></i>
+                        <span id="cartBadge" class="absolute -top-1 -right-1 bg-brandPink text-white text-xs font-bold w-5 h-5 rounded-full flex items-center justify-center">0</span>
+                    </button>
+
+                    <!-- Auth Button / Profile Dropdown -->
+                    <div id="authHeaderContainer" class="relative">
+                        <button onclick="openAuthModal()" class="flex items-center space-x-1.5 bg-brandPinkLight text-brandPink font-bold text-xs sm:text-sm px-3.5 py-2 rounded-full hover:bg-pink-100 transition-colors">
+                            <i class="fa-regular fa-user"></i>
+                            <span id="authHeaderBtnText" class="hidden sm:inline">Sign In</span>
+                        </button>
+                    </div>
+
+                    <!-- Mobile menu button -->
+                    <button onclick="toggleMobileMenu()" class="lg:hidden p-2 text-gray-600 hover:text-brandPink">
+                        <i class="fa-solid fa-bars text-xl"></i>
+                    </button>
+                </div>
+            </div>
+
+            <!-- Mobile Search Bar -->
+            <div class="pb-3 md:hidden">
+                <div class="relative">
+                    <input type="text" id="mobileSearchInput" placeholder="Search baby products..." 
+                        class="w-full pl-9 pr-8 py-2 rounded-full border border-pink-200 bg-brandBg text-sm focus:outline-none focus:border-brandPink"
+                        onkeyup="if(event.key === 'Enter') triggerMobileSearch()">
+                    <i class="fa-solid fa-magnifying-glass absolute left-3 top-2.5 text-pink-400 text-sm"></i>
+                </div>
+            </div>
+        </div>
+
+        <!-- Mobile Drawer Navigation -->
+        <div id="mobileMenu" class="hidden lg:hidden bg-white border-t border-pink-100 px-4 pt-2 pb-4 space-y-2 text-sm font-semibold">
+            <button onclick="navigateTo('home'); toggleMobileMenu()" class="block w-full text-left py-2 border-b border-gray-100 hover:text-brandPink">Home</button>
+            <button onclick="navigateTo('shop'); toggleMobileMenu()" class="block w-full text-left py-2 border-b border-gray-100 hover:text-brandPink">All Products</button>
+            <button onclick="navigateTo('registry'); toggleMobileMenu()" class="block w-full text-left py-2 border-b border-gray-100 hover:text-brandPink">Baby Registry</button>
+            <button onclick="navigateTo('account'); toggleMobileMenu()" class="block w-full text-left py-2 border-b border-gray-100 hover:text-brandPink">My Profile & Orders</button>
+            <button onclick="navigateTo('about'); toggleMobileMenu()" class="block w-full text-left py-2 border-b border-gray-100 hover:text-brandPink">About Us</button>
+            <button onclick="navigateTo('contact'); toggleMobileMenu()" class="block w-full text-left py-2 hover:text-brandPink">Contact Us</button>
+        </div>
+    </header>
+
+    <!-- MAIN VIEW CONTAINER -->
+    <main id="appContainer" class="flex-grow">
+        <!-- Views rendered dynamically via JavaScript -->
+    </main>
+
+    <!-- FOOTER -->
+    <footer class="bg-white border-t border-pink-100 pt-12 pb-8 mt-16">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="grid grid-cols-1 md:grid-cols-4 gap-8 mb-10">
+                <!-- Brand Info -->
+                <div class="space-y-4">
+                    <div class="flex items-center space-x-2">
+                        <div class="w-8 h-8 rounded-full bg-brandPink text-white flex items-center justify-center text-base">
+                            <i class="fa-solid fa-baby"></i>
+                        </div>
+                        <span class="text-xl font-extrabold text-brandPink">Little Nest</span>
+                    </div>
+                    <p class="text-gray-600 text-sm leading-relaxed">
+                        Nurturing parenthood with love, care, and the softest essentials for your little angels. Certified safe & tested with gentle love.
+                    </p>
+                    <div class="flex space-x-3 text-brandPink">
+                        <a href="#" class="w-8 h-8 rounded-full bg-brandPinkLight flex items-center justify-center hover:bg-brandPink hover:text-white transition-colors"><i class="fa-brands fa-facebook-f"></i></a>
+                        <a href="#" class="w-8 h-8 rounded-full bg-brandPinkLight flex items-center justify-center hover:bg-brandPink hover:text-white transition-colors"><i class="fa-brands fa-instagram"></i></a>
+                        <a href="#" class="w-8 h-8 rounded-full bg-brandPinkLight flex items-center justify-center hover:bg-brandPink hover:text-white transition-colors"><i class="fa-brands fa-pinterest"></i></a>
+                    </div>
+                </div>
+
+                <!-- Shop Quick Links -->
+                <div>
+                    <h4 class="font-bold text-gray-800 text-base mb-4">Shop Categories</h4>
+                    <ul class="space-y-2 text-sm text-gray-600">
+                        <li><button onclick="filterByCategory('Diapers & Wipes')" class="hover:text-brandPink">Diapers & Wipes</button></li>
+                        <li><button onclick="filterByCategory('Feeding & Nursing')" class="hover:text-brandPink">Feeding & Nursing</button></li>
+                        <li><button onclick="filterByCategory('Baby Clothing')" class="hover:text-brandPink">Baby Clothing & Onesies</button></li>
+                        <li><button onclick="filterByCategory('Nursery & Maternity')" class="hover:text-brandPink">Nursery & Maternity Wear</button></li>
+                        <li><button onclick="filterByCategory('Toys & Books')" class="hover:text-brandPink">Toys & Learning Books</button></li>
+                    </ul>
+                </div>
+
+                <!-- Customer Care -->
+                <div>
+                    <h4 class="font-bold text-gray-800 text-base mb-4">Parenting & Support</h4>
+                    <ul class="space-y-2 text-sm text-gray-600">
+                        <li><button onclick="navigateTo('registry')" class="hover:text-brandPink">Create Baby Registry</button></li>
+                        <li><button onclick="navigateTo('account', 'orders')" class="hover:text-brandPink">Track My Order</button></li>
+                        <li><button onclick="navigateTo('about')" class="hover:text-brandPink">Parenting Tips & Blog</button></li>
+                        <li><button onclick="navigateTo('contact')" class="hover:text-brandPink">Contact Care Team</button></li>
+                        <li><a href="#" class="hover:text-brandPink">Shipping & Return Policy</a></li>
+                    </ul>
+                </div>
+
+                <!-- Contact & Newsletter -->
+                <div>
+                    <h4 class="font-bold text-gray-800 text-base mb-4">Join Our Nest</h4>
+                    <p class="text-xs text-gray-600 mb-3">Subscribe for exclusive parenting tips, discounts, and baby care updates!</p>
+                    <form onsubmit="event.preventDefault(); showToast('Subscribed successfully!');" class="space-y-2">
+                        <input type="email" placeholder="Enter your email" required class="w-full px-3.5 py-2 text-sm border border-pink-200 rounded-lg focus:outline-none focus:border-brandPink">
+                        <button type="submit" class="w-full bg-brandPink text-white font-bold text-xs py-2.5 rounded-lg hover:bg-brandPinkHover transition-colors">
+                            Subscribe
+                        </button>
+                    </form>
+                </div>
+            </div>
+
+            <div class="border-t border-pink-100 pt-6 flex flex-col sm:flex-row justify-between items-center text-xs text-gray-500">
+                <p>&copy; 2026 Little Nest Baby Care Store. All rights reserved.</p>
+                <div class="flex space-x-4 mt-3 sm:mt-0">
+                    <span class="hover:underline cursor-pointer">Privacy Policy</span>
+                    <span>•</span>
+                    <span class="hover:underline cursor-pointer">Terms of Service</span>
+                    <span>•</span>
+                    <span class="hover:underline cursor-pointer">Safety Guidelines</span>
+                </div>
+            </div>
+        </div>
+    </footer>
+
+    <!-- SLIDE-OVER CART DRAWER -->
+    <div id="cartDrawer" class="fixed inset-0 z-50 overflow-hidden hidden" aria-labelledby="slide-over-title" role="dialog" aria-modal="true">
+        <div class="absolute inset-0 bg-gray-500 bg-opacity-40 transition-opacity" onclick="toggleCartDrawer(false)"></div>
+        <div class="pointer-events-none fixed inset-y-0 right-0 flex max-w-full pl-10">
+            <div class="pointer-events-auto w-screen max-w-md bg-white shadow-xl flex flex-col justify-between">
+                <!-- Cart Header -->
+                <div class="p-5 bg-brandPinkLight border-b border-pink-100 flex items-center justify-between">
+                    <div class="flex items-center space-x-2">
+                        <i class="fa-solid fa-basket-shopping text-brandPink text-xl"></i>
+                        <h2 class="text-lg font-bold text-gray-800">Your Shopping Basket</h2>
+                    </div>
+                    <button onclick="toggleCartDrawer(false)" class="text-gray-400 hover:text-gray-600 p-1">
+                        <i class="fa-solid fa-xmark text-xl"></i>
+                    </button>
+                </div>
+
+                <!-- Cart Items List -->
+                <div id="cartDrawerItems" class="flex-1 overflow-y-auto p-5 space-y-4">
+                    <!-- Dynamic rendering -->
+                </div>
+
+                <!-- Cart Footer Summary & Checkout -->
+                <div id="cartDrawerFooter" class="p-5 bg-white border-t border-pink-100 shadow-lg space-y-3">
+                    <div class="space-y-1.5 text-sm">
+                        <div class="flex justify-between text-gray-600">
+                            <span>Subtotal</span>
+                            <span id="cartSubtotal" class="font-semibold">$0.00</span>
+                        </div>
+                        <div class="flex justify-between text-gray-600">
+                            <span>Estimated Shipping</span>
+                            <span id="cartShipping" class="font-semibold">Calculated at checkout</span>
+                        </div>
+                        <div class="flex justify-between text-base font-bold text-gray-800 pt-2 border-t border-gray-100">
+                            <span>Total</span>
+                            <span id="cartTotal" class="text-brandPink">$0.00</span>
+                        </div>
+                    </div>
+
+                    <button onclick="proceedToCheckout()" class="w-full bg-brandPink text-white font-bold py-3 rounded-xl hover:bg-brandPinkHover transition-colors flex items-center justify-center space-x-2 shadow-md">
+                        <span>Proceed to Checkout</span>
+                        <i class="fa-solid fa-arrow-right text-xs"></i>
+                    </button>
+                    <button onclick="toggleCartDrawer(false)" class="w-full text-center text-xs font-semibold text-gray-500 hover:text-brandPink py-1">
+                        Continue Shopping
+                    </button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- PRODUCT DETAIL MODAL -->
+    <div id="productModal" class="fixed inset-0 z-50 overflow-y-auto hidden" aria-labelledby="modal-title" role="dialog" aria-modal="true">
+        <div class="flex items-center justify-center min-h-screen px-4 pt-4 pb-20 text-center sm:block sm:p-0">
+            <div class="fixed inset-0 bg-gray-500 bg-opacity-50 transition-opacity" onclick="closeProductModal()"></div>
+            <span class="hidden sm:inline-block sm:align-middle sm:h-screen" aria-hidden="true">&#8203;</span>
+
+            <div class="inline-block align-bottom bg-white rounded-2xl text-left overflow-hidden shadow-2xl transform transition-all sm:my-8 sm:align-middle sm:max-w-2xl sm:w-full border border-pink-100">
+                <div class="absolute top-4 right-4 z-10">
+                    <button onclick="closeProductModal()" class="w-8 h-8 rounded-full bg-white shadow-md flex items-center justify-center text-gray-500 hover:text-brandPink">
+                        <i class="fa-solid fa-xmark"></i>
+                    </button>
+                </div>
+                <div id="productModalContent" class="p-6 sm:p-8">
+                    <!-- Dynamic details injected here -->
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- AUTHENTICATION MODAL (LOGIN / REGISTER) -->
+    <div id="authModal" class="fixed inset-0 z-50 overflow-y-auto hidden" role="dialog" aria-modal="true">
+        <div class="flex items-center justify-center min-h-screen px-4">
+            <div class="fixed inset-0 bg-gray-500 bg-opacity-50 transition-opacity" onclick="closeAuthModal()"></div>
+
+            <div class="inline-block bg-white rounded-2xl text-left overflow-hidden shadow-2xl transform transition-all sm:max-w-md w-full p-6 sm:p-8 relative border border-pink-100">
+                <button onclick="closeAuthModal()" class="absolute top-4 right-4 text-gray-400 hover:text-gray-600">
+                    <i class="fa-solid fa-xmark text-lg"></i>
+                </button>
+
+                <!-- Auth Tabs -->
+                <div class="flex border-b border-pink-100 mb-6">
+                    <button id="tabLoginBtn" onclick="switchAuthTab('login')" class="flex-1 py-2 font-bold text-center border-b-2 border-brandPink text-brandPink transition-colors">Sign In</button>
+                    <button id="tabRegisterBtn" onclick="switchAuthTab('register')" class="flex-1 py-2 font-bold text-center text-gray-400 border-b-2 border-transparent hover:text-gray-600 transition-colors">Register</button>
+                </div>
+
+                <!-- Login Form -->
+                <form id="loginForm" onsubmit="handleLogin(event)" class="space-y-4">
+                    <div>
+                        <label class="block text-xs font-bold text-gray-700 mb-1">Email Address</label>
+                        <input type="email" id="loginEmail" required value="parent@littlenest.com" class="w-full px-3.5 py-2.5 rounded-lg border border-pink-200 text-sm focus:outline-none focus:border-brandPink">
+                    </div>
+                    <div>
+                        <label class="block text-xs font-bold text-gray-700 mb-1">Password</label>
+                        <input type="password" id="loginPassword" required value="password123" class="w-full px-3.5 py-2.5 rounded-lg border border-pink-200 text-sm focus:outline-none focus:border-brandPink">
+                    </div>
+                    <div class="flex items-center justify-between text-xs">
+                        <label class="flex items-center space-x-2 cursor-pointer">
+                            <input type="checkbox" checked class="rounded border-pink-300 text-brandPink focus:ring-brandPink">
+                            <span class="text-gray-600">Remember me</span>
+                        </label>
+                        <a href="#" class="text-brandPink hover:underline font-semibold" onclick="showToast('Password reset link sent to email!')">Forgot Password?</a>
+                    </div>
+                    <button type="submit" class="w-full bg-brandPink text-white font-bold py-3 rounded-xl hover:bg-brandPinkHover transition-colors shadow-md">
+                        Sign In to Nest
+                    </button>
+                </form>
+
+                <!-- Register Form -->
+                <form id="registerForm" onsubmit="handleRegister(event)" class="space-y-4 hidden">
+                    <div>
+                        <label class="block text-xs font-bold text-gray-700 mb-1">Full Name</label>
+                        <input type="text" id="regName" required placeholder="Jane Doe" class="w-full px-3.5 py-2.5 rounded-lg border border-pink-200 text-sm focus:outline-none focus:border-brandPink">
+                    </div>
+                    <div>
+                        <label class="block text-xs font-bold text-gray-700 mb-1">Email Address</label>
+                        <input type="email" id="regEmail" required placeholder="jane@example.com" class="w-full px-3.5 py-2.5 rounded-lg border border-pink-200 text-sm focus:outline-none focus:border-brandPink">
+                    </div>
+                    <div>
+                        <label class="block text-xs font-bold text-gray-700 mb-1">Password</label>
+                        <input type="password" id="regPassword" required placeholder="Create a strong password" class="w-full px-3.5 py-2.5 rounded-lg border border-pink-200 text-sm focus:outline-none focus:border-brandPink">
+                    </div>
+                    <button type="submit" class="w-full bg-brandBlue text-white font-bold py-3 rounded-xl hover:bg-sky-500 transition-colors shadow-md">
+                        Create Account
+                    </button>
+                </form>
+            </div>
+        </div>
+    </div>
+
+    <!-- ORDER RECEIPT CONFIRMATION MODAL -->
+    <div id="receiptModal" class="fixed inset-0 z-50 overflow-y-auto hidden" role="dialog" aria-modal="true">
+        <div class="flex items-center justify-center min-h-screen px-4">
+            <div class="fixed inset-0 bg-gray-600 bg-opacity-60 transition-opacity"></div>
+            <div class="inline-block bg-white rounded-3xl text-center overflow-hidden shadow-2xl transform transition-all sm:max-w-md w-full p-6 sm:p-8 relative border border-pink-100">
+                <div class="w-16 h-16 bg-green-100 text-green-500 rounded-full flex items-center justify-center mx-auto mb-4 text-3xl">
+                    <i class="fa-solid fa-circle-check"></i>
+                </div>
+                <h3 class="text-2xl font-extrabold text-gray-800 mb-1">Order Placed!</h3>
+                <p class="text-xs text-gray-500 mb-4">Thank you for shopping with Little Nest. We are packing your gentle care items!</p>
+                
+                <div id="receiptDetails" class="bg-brandBg p-4 rounded-xl text-left text-xs space-y-2 mb-6 border border-pink-100">
+                    <!-- Dynamic Receipt -->
+                </div>
+
+                <button onclick="closeReceiptModal()" class="w-full bg-brandPink text-white font-bold py-3 rounded-xl hover:bg-brandPinkHover transition-colors shadow-md">
+                    Back to Shopping
+                </button>
+            </div>
+        </div>
+    </div>
+
+    <!-- TOAST NOTIFICATION CONTAINER -->
+    <div id="toast" class="fixed bottom-6 right-6 z-50 transform translate-y-20 opacity-0 transition-all duration-300 bg-gray-900 text-white text-sm font-medium px-5 py-3 rounded-xl shadow-xl flex items-center space-x-3">
+        <i class="fa-solid fa-heart text-brandPink"></i>
+        <span id="toastMessage">Notification message</span>
+    </div>
+
+    <!-- APPLICATION SCRIPT -->
+    <script>
+        // DATA STORE
+        const PRODUCTS = [
+            {
+                id: 'p1',
+                name: 'Ultra-Soft Organic Cotton Diapers (Pack of 54)',
+                category: 'Diapers & Wipes',
+                price: 24.99,
+                rating: 4.9,
+                reviews: 128,
+                ageRange: '0-6 months',
+                brand: 'Pampers Soft',
+                image: 'https://images.unsplash.com/photo-1519689680058-324335c77eba?auto=format&fit=crop&w=600&q=80',
+                description: 'Hypoallergenic, ultra-breathable, organic cotton diapers with leak-lock design for day and night protection.',
+                bestseller: true
+            },
+            {
+                id: 'p2',
+                name: 'Gentle Pure Water Wipes (8 Packs - 640 Wipes)',
+                category: 'Diapers & Wipes',
+                price: 18.50,
+                rating: 4.8,
+                reviews: 95,
+                ageRange: '0-6 months',
+                brand: 'Little Nest Pure',
+                image: 'https://images.unsplash.com/photo-1584308666744-24d5c474f2ae?auto=format&fit=crop&w=600&q=80',
+                description: '99.9% pure water wipes enriched with a drop of natural aloe vera extract for sensitive baby skin.',
+                bestseller: false
+            },
+            {
+                id: 'p3',
+                name: 'Anti-Colic Glass Baby Bottle Set (240ml x 3)',
+                category: 'Feeding & Nursing',
+                price: 29.99,
+                rating: 4.9,
+                reviews: 210,
+                ageRange: '0-6 months',
+                brand: 'Philips Avent',
+                image: 'https://images.unsplash.com/photo-1522337360788-8b13dee7a37e?auto=format&fit=crop&w=600&q=80',
+                description: 'Natural latch-on breast-shaped teat with an anti-colic air valve system to reduce fussiness.',
+                bestseller: true
+            },
+            {
+                id: 'p4',
+                name: 'Wearable Hands-Free Electric Breast Pump',
+                category: 'Feeding & Nursing',
+                price: 89.00,
+                rating: 4.7,
+                reviews: 64,
+                ageRange: 'Maternity',
+                brand: 'Elvie Care',
+                image: 'https://images.unsplash.com/photo-1515488042361-ee00e0ddd4e4?auto=format&fit=crop&w=600&q=80',
+                description: 'Ultra-quiet, hospital-grade suction with smart app controls and soft silicone flanges.',
+                bestseller: true
+            },
+            {
+                id: 'p5',
+                name: 'Pastel Bunny Sleepwear Onesie (Set of 3)',
+                category: 'Baby Clothing',
+                price: 22.00,
+                rating: 5.0,
+                reviews: 142,
+                ageRange: '6-12 months',
+                brand: 'Carter Care',
+                image: 'https://images.unsplash.com/photo-1522771739844-6a9f6d5f14af?auto=format&fit=crop&w=600&q=80',
+                description: 'Super soft 100% combed cotton sleepsuits featuring cute bunny embroidery and two-way zippers.',
+                bestseller: true
+            },
+            {
+                id: 'p6',
+                name: 'Cozy Knitted Baby Booties & Mitten Set',
+                category: 'Baby Clothing',
+                price: 12.99,
+                rating: 4.6,
+                reviews: 38,
+                ageRange: '0-6 months',
+                brand: 'Little Nest Pure',
+                image: 'https://images.unsplash.com/photo-1519689680058-324335c77eba?auto=format&fit=crop&w=600&q=80',
+                description: 'Hand-crafted soft knitted booties and mittens to keep newborn toes and hands warm.',
+                bestseller: false
+            },
+            {
+                id: 'p7',
+                name: 'Convertible Wooden Baby Crib with Mattress',
+                category: 'Nursery & Maternity',
+                price: 249.99,
+                rating: 4.9,
+                reviews: 87,
+                ageRange: '1-2 years',
+                brand: 'Stokke Home',
+                image: 'https://images.unsplash.com/photo-1544816155-12df9643f363?auto=format&fit=crop&w=600&q=80',
+                description: 'Sustainably sourced beechwood crib that transitions smoothly into a toddler bed.',
+                bestseller: true
+            },
+            {
+                id: 'p8',
+                name: 'Ergonomic Nursing & Support Pillow',
+                category: 'Nursery & Maternity',
+                price: 34.50,
+                rating: 4.8,
+                reviews: 115,
+                ageRange: 'Maternity',
+                brand: 'Boppy Care',
+                image: 'https://images.unsplash.com/photo-1555252333-9f8e92e65df9?auto=format&fit=crop&w=600&q=80',
+                description: 'Provides arm and back relief during feeding or relaxing. Features a removable, washable cotton slipcover.',
+                bestseller: false
+            },
+            {
+                id: 'p9',
+                name: 'Wooden Sensory Montessori Rattle & Teether',
+                category: 'Toys & Books',
+                price: 14.99,
+                rating: 4.7,
+                reviews: 52,
+                ageRange: '0-6 months',
+                brand: 'Little Nest Pure',
+                image: 'https://images.unsplash.com/photo-1515488042361-ee00e0ddd4e4?auto=format&fit=crop&w=600&q=80',
+                description: 'Natural unvarnished beechwood teether ring with soft silicone beads for motor skill development.',
+                bestseller: false
+            }
+        ];
+
+        // STATE MANAGEMENT
+        let state = {
+            currentView: 'home', // home, shop, detail, cart, checkout, account, registry, about, contact
+            cart: JSON.parse(localStorage.getItem('ln_cart')) || [],
+            wishlist: JSON.parse(localStorage.getItem('ln_wishlist')) || ['p1', 'p5'],
+            registry: JSON.parse(localStorage.getItem('ln_registry')) || ['p3', 'p7'],
+            user: JSON.parse(localStorage.getItem('ln_user')) || {
+                loggedIn: true,
+                name: 'Sarah Jenkins',
+                email: 'parent@littlenest.com',
+                address: '742 Evergreen Terrace, Springfield, OR',
+                orders: [
+                    { id: 'LN-88321', date: '2026-02-14', total: 54.98, status: 'Delivered', itemsCount: 2 }
+                ]
+            },
+            filters: {
+                category: 'All',
+                age: 'All',
+                priceMax: 300,
+                brand: 'All',
+                search: '',
+                sort: 'featured'
+            },
+            selectedProductId: null,
+            activeAccountTab: 'profile'
+        };
+
+        // SAVE STATE
+        function saveState() {
+            localStorage.setItem('ln_cart', JSON.stringify(state.cart));
+            localStorage.setItem('ln_wishlist', JSON.stringify(state.wishlist));
+            localStorage.setItem('ln_registry', JSON.stringify(state.registry));
+            localStorage.setItem('ln_user', JSON.stringify(state.user));
+            updateHeaderBadges();
+        }
+
+        // INITIALIZATION
+        window.addEventListener('DOMContentLoaded', () => {
+            updateHeaderBadges();
+            renderView();
+        });
+
+        // NAVIGATION CONTROLLER
+        function navigateTo(view, subTab = null) {
+            state.currentView = view;
+            if (subTab) state.activeAccountTab = subTab;
+            window.scrollTo({ top: 0, behavior: 'smooth' });
+            renderView();
+        }
+
+        function updateHeaderBadges() {
+            const cartCount = state.cart.reduce((sum, item) => sum + item.qty, 0);
+            const cartBadge = document.getElementById('cartBadge');
+            cartBadge.textContent = cartCount;
+            
+            const wishlistBadge = document.getElementById('wishlistBadge');
+            if (state.wishlist.length > 0) {
+                wishlistBadge.textContent = state.wishlist.length;
+                wishlistBadge.classList.remove('hidden');
+            } else {
+                wishlistBadge.classList.add('hidden');
+            }
+
+            const authBtnText = document.getElementById('authHeaderBtnText');
+            if (state.user && state.user.loggedIn) {
+                authBtnText.textContent = state.user.name.split(' ')[0];
+            } else {
+                authBtnText.textContent = 'Sign In';
+            }
+        }
+
+        // VIEW RENDERER
+        function renderView() {
+            const app = document.getElementById('appContainer');
+
+            switch (state.currentView) {
+                case 'home':
+                    app.innerHTML = renderHomePage();
+                    break;
+                case 'shop':
+                    app.innerHTML = renderShopPage();
+                    break;
+                case 'checkout':
+                    app.innerHTML = renderCheckoutPage();
+                    break;
+                case 'account':
+                    app.innerHTML = renderAccountPage();
+                    break;
+                case 'registry':
+                    app.innerHTML = renderRegistryPage();
+                    break;
+                case 'about':
+                    app.innerHTML = renderAboutPage();
+                    break;
+                case 'contact':
+                    app.innerHTML = renderContactPage();
+                    break;
+                default:
+                    app.innerHTML = renderHomePage();
+            }
+        }
+
+        // 1. HOME PAGE VIEW
+        function renderHomePage() {
+            return `
+                <!-- Hero Banner -->
+                <section class="relative bg-gradient-to-r from-pink-100 via-rose-50 to-sky-100 py-12 lg:py-20 overflow-hidden">
+                    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10">
+                        <div class="grid grid-cols-1 lg:grid-cols-2 gap-12 items-center">
+                            <div class="space-y-6 text-center lg:text-left">
+                                <span class="inline-block bg-white text-brandPink text-xs font-extrabold px-4 py-1.5 rounded-full shadow-sm border border-pink-100 uppercase tracking-widest">
+                                    🌸 Pure & Gentle Care
+                                </span>
+                                <h1 class="text-4xl sm:text-5xl lg:text-6xl font-extrabold text-gray-800 leading-tight">
+                                    Softest Comfort for Your Little Miracle.
+                                </h1>
+                                <p class="text-base sm:text-lg text-gray-600 max-w-xl mx-auto lg:mx-0">
+                                    Explore organic baby essentials, dermatologically tested diapers, gentle feeding gear, and cozy nursery designs built with love.
+                                </p>
+                                <div class="flex flex-col sm:flex-row items-center justify-center lg:justify-start gap-4">
+                                    <button onclick="navigateTo('shop')" class="w-full sm:w-auto bg-brandPink text-white font-bold px-8 py-3.5 rounded-full hover:bg-brandPinkHover transition-all shadow-lg hover:shadow-xl transform hover:-translate-y-0.5">
+                                        Shop All Products <i class="fa-solid fa-arrow-right ml-2 text-sm"></i>
+                                    </button>
+                                    <button onclick="navigateTo('registry')" class="w-full sm:w-auto bg-white text-brandPink border border-pink-200 font-bold px-8 py-3.5 rounded-full hover:bg-pink-50 transition-all shadow-sm">
+                                        Create Baby Registry
+                                    </button>
+                                </div>
+                            </div>
+                            <div class="relative flex justify-center">
+                                <div class="relative w-full max-w-md">
+                                    <img src="https://images.unsplash.com/photo-1519689680058-324335c77eba?auto=format&fit=crop&w=800&q=80" alt="Baby Care" class="rounded-3xl shadow-2xl object-cover border-8 border-white w-full h-80 sm:h-96">
+                                    <div class="absolute -bottom-6 -left-6 bg-white p-4 rounded-2xl shadow-xl flex items-center space-x-3 border border-pink-100">
+                                        <div class="w-10 h-10 rounded-full bg-emerald-100 text-emerald-600 flex items-center justify-center text-lg">
+                                            <i class="fa-solid fa-shield-heart"></i>
+                                        </div>
+                                        <div>
+                                            <p class="text-xs font-bold text-gray-800">100% Pediatrician Approved</p>
+                                            <p class="text-[10px] text-gray-500">Hypoallergenic & Safe</p>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </section>
+
+                <!-- Categories Section -->
+                <section class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-16">
+                    <div class="text-center max-w-2xl mx-auto mb-12">
+                        <h2 class="text-3xl font-extrabold text-gray-800">Shop by Categories</h2>
+                        <p class="text-sm text-gray-600 mt-2">Everything your baby needs from first cuddles to first steps</p>
+                    </div>
+
+                    <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6">
+                        <!-- Category Card 1 -->
+                        <div onclick="filterByCategory('Diapers & Wipes')" class="soft-card p-6 text-center cursor-pointer hover:shadow-xl transition-all border border-pink-100 hover:-translate-y-1 group">
+                            <div class="w-16 h-16 rounded-2xl bg-brandPinkLight text-brandPink flex items-center justify-center text-2xl mx-auto mb-4 group-hover:bg-brandPink group-hover:text-white transition-colors">
+                                <i class="fa-solid fa-box-tissue"></i>
+                            </div>
+                            <h3 class="font-bold text-lg text-gray-800 group-hover:text-brandPink transition-colors">Diapers & Wipes</h3>
+                            <ul class="text-xs text-gray-500 mt-3 space-y-1">
+                                <li>• Disposable & Cloth Diapers</li>
+                                <li>• Pure Water Wipes</li>
+                                <li>• Diaper Rash Creams</li>
+                            </ul>
+                        </div>
+
+                        <!-- Category Card 2 -->
+                        <div onclick="filterByCategory('Feeding & Nursing')" class="soft-card p-6 text-center cursor-pointer hover:shadow-xl transition-all border border-pink-100 hover:-translate-y-1 group">
+                            <div class="w-16 h-16 rounded-2xl bg-brandBlueLight text-brandBlue flex items-center justify-center text-2xl mx-auto mb-4 group-hover:bg-brandBlue group-hover:text-white transition-colors">
+                                <i class="fa-solid fa-bottle-droplet"></i>
+                            </div>
+                            <h3 class="font-bold text-lg text-gray-800 group-hover:text-brandBlue transition-colors">Feeding & Nursing</h3>
+                            <ul class="text-xs text-gray-500 mt-3 space-y-1">
+                                <li>• Anti-Colic Baby Bottles</li>
+                                <li>• Electric Breast Pumps</li>
+                                <li>• Formula & High Chairs</li>
+                            </ul>
+                        </div>
+
+                        <!-- Category Card 3 -->
+                        <div onclick="filterByCategory('Baby Clothing')" class="soft-card p-6 text-center cursor-pointer hover:shadow-xl transition-all border border-pink-100 hover:-translate-y-1 group">
+                            <div class="w-16 h-16 rounded-2xl bg-emerald-50 text-emerald-500 flex items-center justify-center text-2xl mx-auto mb-4 group-hover:bg-emerald-500 group-hover:text-white transition-colors">
+                                <i class="fa-solid fa-shirt"></i>
+                            </div>
+                            <h3 class="font-bold text-lg text-gray-800 group-hover:text-emerald-500 transition-colors">Baby Clothing</h3>
+                            <ul class="text-xs text-gray-500 mt-3 space-y-1">
+                                <li>• Onesies & Bodysuits</li>
+                                <li>• Cozy Sleepwear Suits</li>
+                                <li>• Soft Booties & Hats</li>
+                            </ul>
+                        </div>
+
+                        <!-- Category Card 4 -->
+                        <div onclick="filterByCategory('Nursery & Maternity')" class="soft-card p-6 text-center cursor-pointer hover:shadow-xl transition-all border border-pink-100 hover:-translate-y-1 group">
+                            <div class="w-16 h-16 rounded-2xl bg-purple-50 text-purple-500 flex items-center justify-center text-2xl mx-auto mb-4 group-hover:bg-purple-500 group-hover:text-white transition-colors">
+                                <i class="fa-solid fa-crib"></i>
+                            </div>
+                            <h3 class="font-bold text-lg text-gray-800 group-hover:text-purple-500 transition-colors">Nursery & Maternity</h3>
+                            <ul class="text-xs text-gray-500 mt-3 space-y-1">
+                                <li>• Wooden Cribs & Bassinets</li>
+                                <li>• Nursing Pillows & Pads</li>
+                                <li>• Maternity Wear</li>
+                            </ul>
+                        </div>
+                    </div>
+                </section>
+
+                <!-- Bestsellers Grid -->
+                <section class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
+                    <div class="flex justify-between items-end mb-8">
+                        <div>
+                            <span class="text-brandPink text-xs font-bold uppercase tracking-widest">Most Loved By Parents</span>
+                            <h2 class="text-3xl font-extrabold text-gray-800">Featured Bestsellers</h2>
+                        </div>
+                        <button onclick="navigateTo('shop')" class="text-sm font-bold text-brandPink hover:underline flex items-center space-x-1">
+                            <span>View All</span>
+                            <i class="fa-solid fa-chevron-right text-xs"></i>
+                        </button>
+                    </div>
+
+                    <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6">
+                        ${PRODUCTS.filter(p => p.bestseller).map(p => renderProductCard(p)).join('')}
+                    </div>
+                </section>
+            `;
+        }
+
+        // PRODUCT CARD RENDERER
+        function renderProductCard(product) {
+            const isWishlisted = state.wishlist.includes(product.id);
+
+            return `
+                <div class="soft-card overflow-hidden hover:shadow-xl transition-all duration-300 flex flex-col justify-between group">
+                    <div class="relative overflow-hidden bg-gray-50 h-52">
+                        <img src="${product.image}" alt="${product.name}" class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500">
+                        <span class="absolute top-3 left-3 bg-white/90 backdrop-blur-sm text-xs font-bold text-gray-700 px-2.5 py-1 rounded-full border border-pink-100">
+                            ${product.ageRange}
+                        </span>
+                        <button onclick="toggleWishlist('${product.id}')" class="absolute top-3 right-3 w-8 h-8 rounded-full bg-white/90 backdrop-blur-sm shadow flex items-center justify-center transition-colors ${isWishlisted ? 'text-brandPink' : 'text-gray-400 hover:text-brandPink'}">
+                            <i class="${isWishlisted ? 'fa-solid' : 'fa-regular'} fa-heart text-sm"></i>
+                        </button>
+                    </div>
+
+                    <div class="p-5 flex-1 flex flex-col justify-between space-y-3">
+                        <div>
+                            <div class="flex items-center space-x-1 text-amber-400 text-xs mb-1">
+                                <i class="fa-solid fa-star"></i>
+                                <span class="font-bold text-gray-700">${product.rating}</span>
+                                <span class="text-gray-400">(${product.reviews})</span>
+                            </div>
+                            <h4 onclick="openProductModal('${product.id}')" class="font-bold text-gray-800 text-sm hover:text-brandPink cursor-pointer line-clamp-2">
+                                ${product.name}
+                            </h4>
+                            <p class="text-xs text-gray-500 mt-1">${product.category}</p>
+                        </div>
+
+                        <div class="pt-2 border-t border-gray-100 flex items-center justify-between">
+                            <span class="text-lg font-extrabold text-brandPink">$${product.price.toFixed(2)}</span>
+                            <div class="flex space-x-1">
+                                <button onclick="openProductModal('${product.id}')" class="p-2 text-xs text-gray-500 hover:text-gray-800 bg-gray-100 rounded-lg transition-colors" title="Quick View">
+                                    <i class="fa-solid fa-eye"></i>
+                                </button>
+                                <button onclick="addToCart('${product.id}')" class="bg-brandPink text-white text-xs font-bold px-3 py-2 rounded-lg hover:bg-brandPinkHover transition-colors flex items-center space-x-1">
+                                    <i class="fa-solid fa-plus"></i>
+                                    <span>Add</span>
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            `;
+        }
+
+        // 2. PRODUCT LISTING PAGE VIEW
+        function renderShopPage() {
+            let filtered = PRODUCTS.filter(p => {
+                if (state.filters.category !== 'All' && p.category !== state.filters.category) return false;
+                if (state.filters.age !== 'All' && p.ageRange !== state.filters.age) return false;
+                if (p.price > state.filters.priceMax) return false;
+                if (state.filters.brand !== 'All' && p.brand !== state.filters.brand) return false;
+                if (state.filters.search && !p.name.toLowerCase().includes(state.filters.search.toLowerCase())) return false;
+                return true;
+            });
+
+            if (state.filters.sort === 'low-high') filtered.sort((a,b) => a.price - b.price);
+            if (state.filters.sort === 'high-low') filtered.sort((a,b) => b.price - a.price);
+            if (state.filters.sort === 'rating') filtered.sort((a,b) => b.rating - a.rating);
+
+            return `
+                <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
+                    <div class="mb-6 flex flex-col md:flex-row md:items-center justify-between gap-4">
+                        <div>
+                            <h1 class="text-3xl font-extrabold text-gray-800">Explore Baby Products</h1>
+                            <p class="text-xs text-gray-500">Showing ${filtered.length} products</p>
+                        </div>
+
+                        <!-- Sort Options -->
+                        <div class="flex items-center space-x-3">
+                            <label class="text-xs font-bold text-gray-600">Sort By:</label>
+                            <select onchange="handleSortChange(this.value)" class="bg-white text-xs font-semibold px-3 py-2 border border-pink-200 rounded-xl focus:outline-none focus:border-brandPink">
+                                <option value="featured" ${state.filters.sort === 'featured' ? 'selected' : ''}>Featured</option>
+                                <option value="low-high" ${state.filters.sort === 'low-high' ? 'selected' : ''}>Price: Low to High</option>
+                                <option value="high-low" ${state.filters.sort === 'high-low' ? 'selected' : ''}>Price: High to Low</option>
+                                <option value="rating" ${state.filters.sort === 'rating' ? 'selected' : ''}>Highest Rated</option>
+                            </select>
+                        </div>
+                    </div>
+
+                    <div class="grid grid-cols-1 lg:grid-cols-4 gap-8">
+                        <!-- Filters Sidebar -->
+                        <div class="soft-card p-6 h-fit space-y-6">
+                            <div class="flex justify-between items-center pb-3 border-b border-gray-100">
+                                <h3 class="font-bold text-gray-800 text-sm"><i class="fa-solid fa-sliders mr-2 text-brandPink"></i> Filter Products</h3>
+                                <button onclick="resetFilters()" class="text-xs text-brandPink hover:underline font-semibold">Reset All</button>
+                            </div>
+
+                            <!-- Category Filter -->
+                            <div>
+                                <label class="block text-xs font-bold text-gray-700 mb-2">Category</label>
+                                <select onchange="handleFilterChange('category', this.value)" class="w-full bg-brandBg text-xs font-medium px-3 py-2 border border-pink-200 rounded-xl focus:outline-none">
+                                    <option value="All">All Categories</option>
+                                    <option value="Diapers & Wipes" ${state.filters.category === 'Diapers & Wipes' ? 'selected' : ''}>Diapers & Wipes</option>
+                                    <option value="Feeding & Nursing" ${state.filters.category === 'Feeding & Nursing' ? 'selected' : ''}>Feeding & Nursing</option>
+                                    <option value="Baby Clothing" ${state.filters.category === 'Baby Clothing' ? 'selected' : ''}>Baby Clothing</option>
+                                    <option value="Nursery & Maternity" ${state.filters.category === 'Nursery & Maternity' ? 'selected' : ''}>Nursery & Maternity</option>
+                                    <option value="Toys & Books" ${state.filters.category === 'Toys & Books' ? 'selected' : ''}>Toys & Books</option>
+                                </select>
+                            </div>
+
+                            <!-- Age Range Filter -->
+                            <div>
+                                <label class="block text-xs font-bold text-gray-700 mb-2">Age Range</label>
+                                <div class="space-y-1.5 text-xs text-gray-600">
+                                    ${['All', '0-6 months', '6-12 months', '1-2 years', 'Maternity'].map(age => `
+                                        <label class="flex items-center space-x-2 cursor-pointer">
+                                            <input type="radio" name="ageFilter" value="${age}" ${state.filters.age === age ? 'checked' : ''} onchange="handleFilterChange('age', this.value)" class="text-brandPink focus:ring-brandPink">
+                                            <span>${age}</span>
+                                        </label>
+                                    `).join('')}
+                                </div>
+                            </div>
+
+                            <!-- Price Range Filter -->
+                            <div>
+                                <div class="flex justify-between text-xs font-bold text-gray-700 mb-1">
+                                    <span>Max Price:</span>
+                                    <span class="text-brandPink">$${state.filters.priceMax}</span>
+                                </div>
+                                <input type="range" min="10" max="300" step="5" value="${state.filters.priceMax}" oninput="handleFilterChange('priceMax', this.value)" class="w-full accent-brandPink">
+                            </div>
+                        </div>
+
+                        <!-- Product Grid -->
+                        <div class="lg:col-span-3">
+                            ${filtered.length === 0 ? `
+                                <div class="soft-card p-12 text-center text-gray-500">
+                                    <i class="fa-solid fa-magnifying-glass-minus text-4xl mb-3 text-pink-300"></i>
+                                    <p class="font-bold text-base">No products match your criteria.</p>
+                                    <button onclick="resetFilters()" class="mt-4 bg-brandPink text-white text-xs font-bold px-4 py-2 rounded-lg">Clear Filters</button>
+                                </div>
+                            ` : `
+                                <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
+                                    ${filtered.map(p => renderProductCard(p)).join('')}
+                                </div>
+                            `}
+                        </div>
+                    </div>
+                </div>
+            `;
+        }
+
+        // 3. CHECKOUT PAGE VIEW
+        function renderCheckoutPage() {
+            const subtotal = state.cart.reduce((sum, item) => sum + (item.price * item.qty), 0);
+            const shipping = subtotal > 49 || subtotal === 0 ? 0 : 5.99;
+            const total = subtotal + shipping;
+
+            return `
+                <div class="max-w-5xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
+                    <h1 class="text-3xl font-extrabold text-gray-800 mb-6">Checkout</h1>
+
+                    <div class="grid grid-cols-1 lg:grid-cols-3 gap-8">
+                        <!-- Shipping & Payment Form -->
+                        <div class="lg:col-span-2 space-y-6">
+                            <!-- Shipping Address -->
+                            <div class="soft-card p-6 space-y-4">
+                                <h3 class="font-bold text-gray-800 text-base border-b border-pink-100 pb-3">1. Shipping Address</h3>
+                                <div class="grid grid-cols-1 sm:grid-cols-2 gap-4 text-xs">
+                                    <div>
+                                        <label class="block font-bold text-gray-700 mb-1">First Name</label>
+                                        <input type="text" value="Sarah" class="w-full p-2.5 rounded-lg border border-pink-200">
+                                    </div>
+                                    <div>
+                                        <label class="block font-bold text-gray-700 mb-1">Last Name</label>
+                                        <input type="text" value="Jenkins" class="w-full p-2.5 rounded-lg border border-pink-200">
+                                    </div>
+                                    <div class="sm:col-span-2">
+                                        <label class="block font-bold text-gray-700 mb-1">Street Address</label>
+                                        <input type="text" value="${state.user.address}" class="w-full p-2.5 rounded-lg border border-pink-200">
+                                    </div>
+                                    <div>
+                                        <label class="block font-bold text-gray-700 mb-1">City</label>
+                                        <input type="text" value="Springfield" class="w-full p-2.5 rounded-lg border border-pink-200">
+                                    </div>
+                                    <div>
+                                        <label class="block font-bold text-gray-700 mb-1">Zip / Postal Code</label>
+                                        <input type="text" value="97477" class="w-full p-2.5 rounded-lg border border-pink-200">
+                                    </div>
+                                </div>
+                            </div>
+
+                            <!-- Payment Method -->
+                            <div class="soft-card p-6 space-y-4">
+                                <h3 class="font-bold text-gray-800 text-base border-b border-pink-100 pb-3">2. Payment Method</h3>
+                                <div class="space-y-3 text-xs font-semibold">
+                                    <label class="flex items-center space-x-3 p-3 border border-pink-200 rounded-xl cursor-pointer bg-brandBg">
+                                        <input type="radio" name="payment" checked class="text-brandPink focus:ring-brandPink">
+                                        <i class="fa-regular fa-credit-card text-brandPink text-base"></i>
+                                        <span>Credit / Debit Card (Simulated)</span>
+                                    </label>
+                                    <label class="flex items-center space-x-3 p-3 border border-pink-200 rounded-xl cursor-pointer">
+                                        <input type="radio" name="payment" class="text-brandPink focus:ring-brandPink">
+                                        <i class="fa-brands fa-paypal text-blue-500 text-base"></i>
+                                        <span>PayPal</span>
+                                    </label>
+                                    <label class="flex items-center space-x-3 p-3 border border-pink-200 rounded-xl cursor-pointer">
+                                        <input type="radio" name="payment" class="text-brandPink focus:ring-brandPink">
+                                        <i class="fa-solid fa-truck text-emerald-500 text-base"></i>
+                                        <span>Cash on Delivery</span>
+                                    </label>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- Order Summary -->
+                        <div class="soft-card p-6 h-fit space-y-4">
+                            <h3 class="font-bold text-gray-800 text-base border-b border-pink-100 pb-3">Order Summary</h3>
+                            <div class="space-y-3 max-h-60 overflow-y-auto text-xs">
+                                ${state.cart.map(item => `
+                                    <div class="flex justify-between items-center">
+                                        <div>
+                                            <p class="font-bold text-gray-800 line-clamp-1">${item.name}</p>
+                                            <p class="text-gray-400">Qty: ${item.qty}</p>
+                                        </div>
+                                        <span class="font-bold text-gray-700">$${(item.price * item.qty).toFixed(2)}</span>
+                                    </div>
+                                `).join('')}
+                            </div>
+
+                            <div class="border-t border-gray-100 pt-3 space-y-2 text-xs">
+                                <div class="flex justify-between text-gray-600">
+                                    <span>Subtotal</span>
+                                    <span>$${subtotal.toFixed(2)}</span>
+                                </div>
+                                <div class="flex justify-between text-gray-600">
+                                    <span>Shipping</span>
+                                    <span>${shipping === 0 ? 'FREE' : '$' + shipping.toFixed(2)}</span>
+                                </div>
+                                <div class="flex justify-between font-extrabold text-sm text-gray-800 pt-2 border-t border-gray-100">
+                                    <span>Total</span>
+                                    <span class="text-brandPink">$${total.toFixed(2)}</span>
+                                </div>
+                            </div>
+
+                            <button onclick="placeOrder()" ${state.cart.length === 0 ? 'disabled' : ''} class="w-full bg-brandPink text-white font-bold py-3 rounded-xl hover:bg-brandPinkHover transition-colors shadow-md disabled:opacity-50">
+                                Complete Order ($${total.toFixed(2)})
+                            </button>
+                        </div>
+                    </div>
+                </div>
+            `;
+        }
+
+        // 4. USER ACCOUNT VIEW
+        function renderAccountPage() {
+            return `
+                <div class="max-w-5xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
+                    <h1 class="text-3xl font-extrabold text-gray-800 mb-6">Parent Account & Registry</h1>
+
+                    <div class="grid grid-cols-1 md:grid-cols-4 gap-6">
+                        <!-- Account Tabs -->
+                        <div class="soft-card p-4 space-y-1 text-sm font-semibold h-fit">
+                            <button onclick="switchAccountTab('profile')" class="w-full text-left px-3 py-2 rounded-lg transition-colors ${state.activeAccountTab === 'profile' ? 'bg-brandPink text-white' : 'hover:bg-pink-50'}">
+                                <i class="fa-regular fa-user mr-2"></i> Profile
+                            </button>
+                            <button onclick="switchAccountTab('orders')" class="w-full text-left px-3 py-2 rounded-lg transition-colors ${state.activeAccountTab === 'orders' ? 'bg-brandPink text-white' : 'hover:bg-pink-50'}">
+                                <i class="fa-solid fa-box mr-2"></i> Order History
+                            </button>
+                            <button onclick="switchAccountTab('wishlist')" class="w-full text-left px-3 py-2 rounded-lg transition-colors ${state.activeAccountTab === 'wishlist' ? 'bg-brandPink text-white' : 'hover:bg-pink-50'}">
+                                <i class="fa-regular fa-heart mr-2"></i> Wishlist (${state.wishlist.length})
+                            </button>
+                        </div>
+
+                        <!-- Tab Content -->
+                        <div class="md:col-span-3 soft-card p-6">
+                            ${state.activeAccountTab === 'profile' ? `
+                                <h3 class="font-bold text-gray-800 text-lg mb-4">My Profile Details</h3>
+                                <div class="space-y-4 text-xs">
+                                    <div>
+                                        <label class="block font-bold text-gray-700 mb-1">Full Name</label>
+                                        <input type="text" value="${state.user.name}" class="w-full max-w-md p-2.5 rounded-lg border border-pink-200">
+                                    </div>
+                                    <div>
+                                        <label class="block font-bold text-gray-700 mb-1">Email</label>
+                                        <input type="email" value="${state.user.email}" class="w-full max-w-md p-2.5 rounded-lg border border-pink-200">
+                                    </div>
+                                    <div>
+                                        <label class="block font-bold text-gray-700 mb-1">Saved Address</label>
+                                        <input type="text" value="${state.user.address}" class="w-full max-w-md p-2.5 rounded-lg border border-pink-200">
+                                    </div>
+                                    <button onclick="showToast('Profile updated successfully!')" class="bg-brandPink text-white font-bold px-6 py-2.5 rounded-lg">Save Changes</button>
+                                </div>
+                            ` : ''}
+
+                            ${state.activeAccountTab === 'orders' ? `
+                                <h3 class="font-bold text-gray-800 text-lg mb-4">Order History</h3>
+                                <div class="space-y-4 text-xs">
+                                    ${state.user.orders.map(o => `
+                                        <div class="border border-pink-100 p-4 rounded-xl flex justify-between items-center bg-brandBg">
+                                            <div>
+                                                <p class="font-bold text-gray-800">${o.id}</p>
+                                                <p class="text-gray-500">${o.date} • ${o.itemsCount} items</p>
+                                            </div>
+                                            <div class="text-right">
+                                                <span class="font-bold text-brandPink">$${o.total.toFixed(2)}</span>
+                                                <p class="text-emerald-600 font-bold">${o.status}</p>
+                                            </div>
+                                        </div>
+                                    `).join('')}
+                                </div>
+                            ` : ''}
+
+                            ${state.activeAccountTab === 'wishlist' ? `
+                                <h3 class="font-bold text-gray-800 text-lg mb-4">Saved Wishlist Items</h3>
+                                <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
+                                    ${state.wishlist.map(id => {
+                                        const p = PRODUCTS.find(item => item.id === id);
+                                        if(!p) return '';
+                                        return renderProductCard(p);
+                                    }).join('')}
+                                </div>
+                            ` : ''}
+                        </div>
+                    </div>
+                </div>
+            `;
+        }
+
+        // 5. BABY REGISTRY PAGE VIEW
+        function renderRegistryPage() {
+            const registryProducts = PRODUCTS.filter(p => state.registry.includes(p.id));
+
+            return `
+                <div class="max-w-5xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
+                    <div class="bg-gradient-to-r from-brandPink to-rose-400 rounded-3xl p-8 text-white mb-8 shadow-xl">
+                        <span class="text-xs font-bold uppercase tracking-widest bg-white/20 px-3 py-1 rounded-full">Baby Shower & Registry</span>
+                        <h1 class="text-3xl font-extrabold mt-2">Sarah & Baby’s Gift Registry</h1>
+                        <p class="text-xs text-pink-100 mt-1">Expected Due Date: July 15, 2026 • Share with family & friends!</p>
+                        <div class="mt-4 flex space-x-3">
+                            <button onclick="showToast('Registry link copied to clipboard!')" class="bg-white text-brandPink text-xs font-bold px-4 py-2 rounded-full shadow hover:bg-pink-50">
+                                <i class="fa-solid fa-share-nodes mr-1"></i> Share Registry Link
+                            </button>
+                        </div>
+                    </div>
+
+                    <h2 class="text-2xl font-bold text-gray-800 mb-4">Items in Baby Registry</h2>
+                    <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
+                        ${registryProducts.length === 0 ? `
+                            <p class="text-xs text-gray-500 col-span-3">No items added to baby registry yet.</p>
+                        ` : registryProducts.map(p => `
+                            <div class="soft-card p-4 flex space-x-4 items-center">
+                                <img src="${p.image}" class="w-16 h-16 rounded-xl object-cover">
+                                <div class="flex-1 text-xs">
+                                    <h4 class="font-bold text-gray-800">${p.name}</h4>
+                                    <p class="text-brandPink font-bold">$${p.price.toFixed(2)}</p>
+                                    <button onclick="addToCart('${p.id}')" class="mt-2 text-xs text-brandBlue font-bold hover:underline">
+                                        + Gift This Item
+                                    </button>
+                                </div>
+                            </div>
+                        `).join('')}
+                    </div>
+                </div>
+            `;
+        }
+
+        // 6. ABOUT US PAGE VIEW
+        function renderAboutPage() {
+            return `
+                <div class="max-w-5xl mx-auto px-4 sm:px-6 lg:px-8 py-12 space-y-12">
+                    <div class="text-center max-w-2xl mx-auto space-y-4">
+                        <span class="text-xs font-extrabold text-brandPink uppercase tracking-widest bg-brandPinkLight px-3 py-1 rounded-full">Our Story</span>
+                        <h1 class="text-4xl font-extrabold text-gray-800">Born From Softness & Maternal Love</h1>
+                        <p class="text-sm text-gray-600 leading-relaxed">
+                            Little Nest was founded by pediatricians and mothers with a simple promise: to provide gentler, safer, and cleaner products for the sensitive first months of life.
+                        </p>
+                    </div>
+
+                    <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
+                        <div class="soft-card p-6 text-center space-y-2">
+                            <i class="fa-solid fa-leaf text-3xl text-emerald-500"></i>
+                            <h3 class="font-bold text-gray-800">100% Organic Cotton</h3>
+                            <p class="text-xs text-gray-500">Free from harsh chemical dyes, phthalates, and synthetic fillers.</p>
+                        </div>
+                        <div class="soft-card p-6 text-center space-y-2">
+                            <i class="fa-solid fa-user-doctor text-3xl text-brandBlue"></i>
+                            <h3 class="font-bold text-gray-800">Pediatrician Approved</h3>
+                            <p class="text-xs text-gray-500">Every formula and fabric is tested for hypoallergenic comfort.</p>
+                        </div>
+                        <div class="soft-card p-6 text-center space-y-2">
+                            <i class="fa-solid fa-heart text-3xl text-brandPink"></i>
+                            <h3 class="font-bold text-gray-800">Sustainable Nesting</h3>
+                            <p class="text-xs text-gray-500">Eco-conscious packaging to protect the world our babies inherit.</p>
+                        </div>
+                    </div>
+                </div>
+            `;
+        }
+
+        // 7. CONTACT US PAGE VIEW
+        function renderContactPage() {
+            return `
+                <div class="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 py-12">
+                    <h1 class="text-3xl font-extrabold text-gray-800 text-center mb-8">We’re Here to Help Parents</h1>
+                    
+                    <div class="grid grid-cols-1 md:grid-cols-2 gap-8">
+                        <div class="soft-card p-6 space-y-4 text-xs">
+                            <h3 class="font-bold text-base text-gray-800">Contact Details</h3>
+                            <p class="text-gray-600"><i class="fa-solid fa-location-dot text-brandPink mr-2"></i> 100 Gentle Care Way, Suite 400, San Francisco, CA</p>
+                            <p class="text-gray-600"><i class="fa-solid fa-phone text-brandPink mr-2"></i> +1 (800) 555-NEST</p>
+                            <p class="text-gray-600"><i class="fa-solid fa-envelope text-brandPink mr-2"></i> care@littlenest.com</p>
+                        </div>
+
+                        <form onsubmit="event.preventDefault(); showToast('Message sent! Our care team will respond shortly.');" class="soft-card p-6 space-y-4 text-xs">
+                            <h3 class="font-bold text-base text-gray-800">Send Us a Note</h3>
+                            <div>
+                                <label class="block font-bold text-gray-700 mb-1">Your Name</label>
+                                <input type="text" required class="w-full p-2.5 rounded-lg border border-pink-200">
+                            </div>
+                            <div>
+                                <label class="block font-bold text-gray-700 mb-1">Email</label>
+                                <input type="email" required class="w-full p-2.5 rounded-lg border border-pink-200">
+                            </div>
+                            <div>
+                                <label class="block font-bold text-gray-700 mb-1">Message</label>
+                                <textarea rows="3" required class="w-full p-2.5 rounded-lg border border-pink-200"></textarea>
+                            </div>
+                            <button type="submit" class="w-full bg-brandPink text-white font-bold py-3 rounded-xl hover:bg-brandPinkHover transition-colors">
+                                Send Message
+                            </button>
+                        </form>
+                    </div>
+                </div>
+            `;
+        }
+
+        // INTERACTION HANDLERS & HELPERS
+        function addToCart(productId) {
+            const existing = state.cart.find(i => i.id === productId);
+            if (existing) {
+                existing.qty++;
+            } else {
+                const prod = PRODUCTS.find(p => p.id === productId);
+                state.cart.push({ ...prod, qty: 1 });
+            }
+            saveState();
+            showToast('Added to basket!');
+            renderCartDrawer();
+        }
+
+        function updateCartQty(productId, delta) {
+            const item = state.cart.find(i => i.id === productId);
+            if (item) {
+                item.qty += delta;
+                if (item.qty <= 0) {
+                    state.cart = state.cart.filter(i => i.id !== productId);
+                }
+            }
+            saveState();
+            renderCartDrawer();
+        }
+
+        function toggleWishlist(productId) {
+            if (state.wishlist.includes(productId)) {
+                state.wishlist = state.wishlist.filter(id => id !== productId);
+                showToast('Removed from wishlist');
+            } else {
+                state.wishlist.push(productId);
+                showToast('Saved to wishlist!');
+            }
+            saveState();
+            renderView();
+        }
+
+        function toggleCartDrawer(open) {
+            const drawer = document.getElementById('cartDrawer');
+            if (open) {
+                renderCartDrawer();
+                drawer.classList.remove('hidden');
+            } else {
+                drawer.classList.add('hidden');
+            }
+        }
+
+        function renderCartDrawer() {
+            const container = document.getElementById('cartDrawerItems');
+            if (state.cart.length === 0) {
+                container.innerHTML = `
+                    <div class="text-center py-12 text-gray-400 space-y-2">
+                        <i class="fa-solid fa-basket-shopping text-4xl text-pink-200"></i>
+                        <p class="font-bold text-sm">Your basket is empty.</p>
+                    </div>
+                `;
+            } else {
+                container.innerHTML = state.cart.map(item => `
+                    <div class="flex items-center space-x-3 p-3 bg-brandBg rounded-xl border border-pink-100">
+                        <img src="${item.image}" class="w-14 h-14 object-cover rounded-lg">
+                        <div class="flex-1 text-xs">
+                            <h4 class="font-bold text-gray-800 line-clamp-1">${item.name}</h4>
+                            <p class="text-brandPink font-bold mt-0.5">$${item.price.toFixed(2)}</p>
+                            <div class="flex items-center space-x-2 mt-2">
+                                <button onclick="updateCartQty('${item.id}', -1)" class="w-5 h-5 rounded bg-white border border-pink-200 font-bold flex items-center justify-center text-xs">-</button>
+                                <span class="font-bold text-gray-700">${item.qty}</span>
+                                <button onclick="updateCartQty('${item.id}', 1)" class="w-5 h-5 rounded bg-white border border-pink-200 font-bold flex items-center justify-center text-xs">+</button>
+                            </div>
+                        </div>
+                        <button onclick="updateCartQty('${item.id}', -${item.qty})" class="text-gray-400 hover:text-red-500 text-xs p-1">
+                            <i class="fa-solid fa-trash"></i>
+                        </button>
+                    </div>
+                `).join('');
+            }
+
+            const subtotal = state.cart.reduce((sum, item) => sum + (item.price * item.qty), 0);
+            document.getElementById('cartSubtotal').textContent = `$${subtotal.toFixed(2)}`;
+            document.getElementById('cartTotal').textContent = `$${subtotal.toFixed(2)}`;
+        }
+
+        function openProductModal(productId) {
+            const p = PRODUCTS.find(item => item.id === productId);
+            const content = document.getElementById('productModalContent');
+
+            content.innerHTML = `
+                <div class="grid grid-cols-1 sm:grid-cols-2 gap-6">
+                    <img src="${p.image}" class="w-full h-64 object-cover rounded-2xl">
+                    <div class="space-y-4">
+                        <div>
+                            <span class="text-xs bg-brandPinkLight text-brandPink font-bold px-2.5 py-1 rounded-full">${p.ageRange}</span>
+                            <h3 class="text-xl font-extrabold text-gray-800 mt-2">${p.name}</h3>
+                            <p class="text-xs text-gray-400 mt-1">Brand: ${p.brand}</p>
+                        </div>
+                        <p class="text-xs text-gray-600 leading-relaxed">${p.description}</p>
+                        <div class="text-2xl font-extrabold text-brandPink">$${p.price.toFixed(2)}</div>
+                        <div class="flex space-x-3">
+                            <button onclick="addToCart('${p.id}'); closeProductModal();" class="flex-1 bg-brandPink text-white font-bold py-3 rounded-xl hover:bg-brandPinkHover text-xs">
+                                Add to Cart
+                            </button>
+                        </div>
+                    </div>
+                </div>
+            `;
+
+            document.getElementById('productModal').classList.remove('hidden');
+        }
+
+        function closeProductModal() {
+            document.getElementById('productModal').classList.add('hidden');
+        }
+
+        function openAuthModal() {
+            document.getElementById('authModal').classList.remove('hidden');
+        }
+
+        function closeAuthModal() {
+            document.getElementById('authModal').classList.add('hidden');
+        }
+
+        function switchAuthTab(tab) {
+            const loginForm = document.getElementById('loginForm');
+            const registerForm = document.getElementById('registerForm');
+            const tabLoginBtn = document.getElementById('tabLoginBtn');
+            const tabRegisterBtn = document.getElementById('tabRegisterBtn');
+
+            if (tab === 'login') {
+                loginForm.classList.remove('hidden');
+                registerForm.classList.add('hidden');
+                tabLoginBtn.classList.add('border-brandPink', 'text-brandPink');
+                tabRegisterBtn.classList.remove('border-brandPink', 'text-brandPink');
+            } else {
+                loginForm.classList.add('hidden');
+                registerForm.classList.remove('hidden');
+                tabRegisterBtn.classList.add('border-brandPink', 'text-brandPink');
+                tabLoginBtn.classList.remove('border-brandPink', 'text-brandPink');
+            }
+        }
+
+        function handleLogin(e) {
+            e.preventDefault();
+            state.user.loggedIn = true;
+            saveState();
+            closeAuthModal();
+            showToast('Welcome back, ' + state.user.name + '!');
+        }
+
+        function handleRegister(e) {
+            e.preventDefault();
+            const name = document.getElementById('regName').value;
+            const email = document.getElementById('regEmail').value;
+            state.user = { ...state.user, loggedIn: true, name, email };
+            saveState();
+            closeAuthModal();
+            showToast('Account created! Welcome to Little Nest.');
+        }
+
+        function proceedToCheckout() {
+            toggleCartDrawer(false);
+            navigateTo('checkout');
+        }
+
+        function placeOrder() {
+            const orderId = 'LN-' + Math.floor(10000 + Math.random() * 90000);
+            const total = state.cart.reduce((sum, item) => sum + (item.price * item.qty), 0);
+
+            document.getElementById('receiptDetails').innerHTML = `
+                <div class="flex justify-between font-bold">
+                    <span>Order Number:</span>
+                    <span>${orderId}</span>
+                </div>
+                <div class="flex justify-between text-gray-500">
+                    <span>Date:</span>
+                    <span>${new Date().toLocaleDateString()}</span>
+                </div>
+                <div class="flex justify-between text-gray-500">
+                    <span>Items Total:</span>
+                    <span>$${total.toFixed(2)}</span>
+                </div>
+            `;
+
+            state.user.orders.unshift({
+                id: orderId,
+                date: new Date().toISOString().split('T')[0],
+                total: total,
+                status: 'Processing',
+                itemsCount: state.cart.length
+            });
+
+            state.cart = [];
+            saveState();
+
+            document.getElementById('receiptModal').classList.remove('hidden');
+        }
+
+        function closeReceiptModal() {
+            document.getElementById('receiptModal').classList.add('hidden');
+            navigateTo('home');
+        }
+
+        function filterByCategory(category) {
+            state.filters.category = category;
+            navigateTo('shop');
+        }
+
+        function handleFilterChange(key, value) {
+            state.filters[key] = value;
+            renderView();
+        }
+
+        function handleSortChange(sortVal) {
+            state.filters.sort = sortVal;
+            renderView();
+        }
+
+        function resetFilters() {
+            state.filters = { category: 'All', age: 'All', priceMax: 300, brand: 'All', search: '', sort: 'featured' };
+            renderView();
+        }
+
+        function handleHeaderSearch(e) {
+            if (e.key === 'Enter') triggerHeaderSearch();
+        }
+
+        function triggerHeaderSearch() {
+            const query = document.getElementById('searchInput').value;
+            state.filters.search = query;
+            navigateTo('shop');
+        }
+
+        function triggerMobileSearch() {
+            const query = document.getElementById('mobileSearchInput').value;
+            state.filters.search = query;
+            navigateTo('shop');
+        }
+
+        function toggleMobileMenu() {
+            document.getElementById('mobileMenu').classList.toggle('hidden');
+        }
+
+        function switchAccountTab(tab) {
+            state.activeAccountTab = tab;
+            renderView();
+        }
+
+        function showToast(msg) {
+            const toast = document.getElementById('toast');
+            document.getElementById('toastMessage').textContent = msg;
+            toast.classList.remove('translate-y-20', 'opacity-0');
+            setTimeout(() => {
+                toast.classList.add('translate-y-20', 'opacity-0');
+            }, 3000);
+        }
+    </script>
+</body>
+</html>
